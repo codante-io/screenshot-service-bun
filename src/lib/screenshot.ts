@@ -1,4 +1,4 @@
-import { firefox } from 'playwright-core';
+import { chromium } from 'playwright-core';
 import sharp from 'sharp';
 
 export async function getBufferFromPageScreenshot(
@@ -7,7 +7,7 @@ export async function getBufferFromPageScreenshot(
 ) {
   // Added timeout parameter with default value
   try {
-    const browser = await firefox.launch();
+    const browser = await chromium.launch();
     const page = await browser.newPage();
     await page.setViewportSize({ width: 1920, height: 1080 });
 
