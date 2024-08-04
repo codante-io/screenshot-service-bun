@@ -23,9 +23,6 @@ jobs:
       - name: Echo ENV to .env
         run: echo "${{ secrets.ENV }}" > .env
 
-      - name: Build project
-        run: npm run build
-
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@5.2
         with:
