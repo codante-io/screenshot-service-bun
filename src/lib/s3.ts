@@ -47,16 +47,31 @@ export class S3 {
   }
 
   async deleteImage(imagePath: string): Promise<void> {
+    // remove the base url
+    imagePath = this.removeBaseUrl(imagePath);
+
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME ?? '',
       Key: imagePath,
     };
+
+    // remove the base url
 
     try {
       await this.client.send(new DeleteObjectCommand(params));
     } catch (e: any) {
       e.message = `S3 delete error: ${e.message}`;
       throw e;
+    }
+  }
+
+  removeBaseUrl(imageUrl: string): string {
+    try {
+      new URL(imageUrl); // Check if it's a valid URL
+      const url = new URL(imageUrl);
+      return url.pathname.substring(1); // Remove leading '/' from the pathname
+    } catch (error) {
+      return imageUrl; // Return the original if not a valid URL
     }
   }
 }
