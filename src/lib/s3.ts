@@ -38,7 +38,7 @@ export class S3 {
       await this.client.send(new PutObjectCommand(params));
 
       // get the URL of the uploaded image
-      const imageUrl = `https://${params.Bucket}.s3.${this.region}.amazonaws.com/${params.Key}`;
+      const imageUrl = `https://assets.codante.io/${params.Key}`;
       return { imageUrl };
     } catch (e: any) {
       e.message = `S3 upload error: ${e.message}`;
