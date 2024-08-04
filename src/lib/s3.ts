@@ -1,4 +1,8 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { fromEnv } from '@aws-sdk/credential-provider-env';
 import { Upload } from '@aws-sdk/lib-storage';
 import { nanoid } from 'nanoid';
@@ -38,6 +42,20 @@ export class S3 {
       return { imageUrl };
     } catch (e: any) {
       e.message = `S3 upload error: ${e.message}`;
+      throw e;
+    }
+  }
+
+  async deleteImage(imagePath: string): Promise<void> {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME ?? '',
+      Key: imagePath,
+    };
+
+    try {
+      await this.client.send(new DeleteObjectCommand(params));
+    } catch (e: any) {
+      e.message = `S3 delete error: ${e.message}`;
       throw e;
     }
   }
