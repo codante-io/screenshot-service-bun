@@ -21,4 +21,7 @@ app.post('/', screenshotValidator(), async (c) => {
   }
 });
 
-export default app;
+export default {
+  port: 3012,
+  fetch: app.fetch,
+};
