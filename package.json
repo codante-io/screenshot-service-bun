@@ -1,0 +1,19 @@
+{
+  "name": "screenshot-service-hono",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.623.0",
+    "@aws-sdk/lib-storage": "^3.623.0",
+    "hono": "^4.5.3",
+    "nanoid": "^5.0.7",
+    "playwright-core": "^1.45.3",
+    "sharp": "^0.33.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "type": "module"
+}
