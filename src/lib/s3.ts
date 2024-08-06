@@ -4,22 +4,19 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { fromEnv } from '@aws-sdk/credential-provider-env';
-import { Upload } from '@aws-sdk/lib-storage';
 import { nanoid } from 'nanoid';
 
 export class S3 {
   private client: S3Client;
-  private region: string;
 
   constructor() {
     this.client = new S3Client({
       credentials: fromEnv(),
       region: process.env.AWS_REGION ?? 'sa-east-1',
     });
-
-    this.region = process.env.AWS_REGION ?? 'sa-east-1';
   }
 
+  // this method uploads the webp image to the S3 bucket and returns the URL
   async uploadImage(
     imagePath: null | string = null,
     buffer: Buffer
@@ -61,6 +58,24 @@ export class S3 {
       await this.client.send(new DeleteObjectCommand(params));
     } catch (e: any) {
       e.message = `S3 delete error: ${e.message}`;
+      throw e;
+    }
+  }
+
+  async uploadVideo(videoPath: string, buffer: Buffer) {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME ?? '',
+      Key: videoPath,
+      Body: buffer,
+      ContentType: 'video/mp4',
+    };
+
+    try {
+      await this.client.send(new PutObjectCommand(params));
+      const videoUrl = `${process.env.CODANTE_ASSETS_BASE_URL}/${params.Key}`;
+      return { videoUrl };
+    } catch (e: any) {
+      e.message = `S3 upload error: ${e.message}`;
       throw e;
     }
   }

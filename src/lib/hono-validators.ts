@@ -1,5 +1,10 @@
 import { validator } from 'hono/validator';
-import { screenshotPutRequestSchema, screenshotRequestSchema } from './schemas';
+import {
+  imageRequestSchema,
+  screenshotPutRequestSchema,
+  screenshotRequestSchema,
+  vimeoVideoRequestSchema,
+} from './schemas';
 
 export function screenshotValidator() {
   return validator('json', (value, c) => {
@@ -7,7 +12,20 @@ export function screenshotValidator() {
     if (!parsed.success) {
       return c.json(
         { message: 'Invalid Data. You need to pass `url` and `fileName`' },
-        401
+        400
+      );
+    }
+    return parsed.data;
+  });
+}
+
+export function imageRequestValidator() {
+  return validator('form', (value, c) => {
+    const parsed = imageRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(
+        { message: 'Invalid Data. You need to pass `submission_image`' },
+        400
       );
     }
     return parsed.data;
@@ -23,7 +41,23 @@ export function screenshotPutValidator() {
           message:
             'Invalid Data. You need to pass `url`, `fileName` and `imageUrlToDelete`',
         },
-        401
+        400
+      );
+    }
+    return parsed.data;
+  });
+}
+
+export function vimeoVideoValidator() {
+  return validator('json', (value, c) => {
+    const parsed = vimeoVideoRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(
+        {
+          message:
+            'Invalid Data. You need to pass `vimeoUrl`, `localPath`, `position` and `startTime`',
+        },
+        400
       );
     }
     return parsed.data;
