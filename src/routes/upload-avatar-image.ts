@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import sharp from 'sharp';
 import { S3 } from '../lib/s3';
+import base62 from '@sindresorhus/base62';
 
 const app = new Hono();
 
@@ -17,7 +18,8 @@ app.post('/', async (c) => {
     );
   }
 
-  const encodedEmail = Buffer.from(email).toString('base64');
+  // encode in base62 from '@sindresorhus/base62'
+  const encodedEmail = base62.encodeString(email);
 
   const smImgPath = `user-avatars/${encodedEmail}.avif`;
   const lgImgPath = `user-avatars/${encodedEmail}-lg.avif`;
