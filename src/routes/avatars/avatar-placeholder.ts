@@ -20,7 +20,6 @@ app.get('/sm', async (c) => {
   const response = new Response(buffer, {
     headers: {
       'Content-Type': 'image/avif',
-      'Cache-Control': 'public, max-age=10368000',
     },
   });
   return response;

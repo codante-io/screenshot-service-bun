@@ -1,11 +1,9 @@
 import { Hono } from 'hono';
 import { bearerAuth } from 'hono/bearer-auth';
 import screenshot from './routes/screenshot';
-import vimeoVideo from './routes/vimeo-video';
 import uploadImage from './routes/upload-image';
 import uploadAvatarImage from './routes/upload-avatar-image';
 import avatarPlaceholder from './routes/avatars/avatar-placeholder';
-import { etag } from 'hono/etag';
 
 const app = new Hono();
 
@@ -19,7 +17,6 @@ app.route('/upload-image', uploadImage);
 app.route('/upload-avatar-image', uploadAvatarImage);
 
 // Unprotected routes
-app.use('/avatars/*', etag());
 app.route('/avatars', avatarPlaceholder);
 
 export default {
