@@ -24,7 +24,9 @@ export function imageRequestValidator() {
     const parsed = imageRequestSchema.safeParse(value);
     if (!parsed.success) {
       return c.json(
-        { message: 'Invalid Data. You need to pass `submission_image`' },
+        {
+          message: parsed.error.errors,
+        },
         400
       );
     }
