@@ -14,7 +14,10 @@ app.post('/', screenshotValidator(), async (c) => {
   try {
     const screenshotBuffer = await getBufferFromPageScreenshot(url);
     const s3 = new S3();
-    const { imageUrl } = await s3.uploadImage(fileName, screenshotBuffer);
+    const { imageUrl } = await s3.uploadImage({
+      path: fileName,
+      buffer: screenshotBuffer,
+    });
 
     return c.json({ message: 'Screenshot uploaded to S3', imageUrl });
   } catch (e: any) {
@@ -28,7 +31,10 @@ app.put('/', screenshotPutValidator(), async (c) => {
   try {
     const screenshotBuffer = await getBufferFromPageScreenshot(url);
     const s3 = new S3();
-    const { imageUrl } = await s3.uploadImage(fileName, screenshotBuffer);
+    const { imageUrl } = await s3.uploadImage({
+      path: fileName,
+      buffer: screenshotBuffer,
+    });
 
     // delete the old image
     await s3.deleteImage(oldFilename);

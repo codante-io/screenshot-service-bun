@@ -20,10 +20,11 @@ app.post('/', imageRequestValidator(), async (c) => {
 
   try {
     const s3 = new S3();
-    const { imageUrl } = await s3.uploadImage(
-      submission_path,
-      resizedImageBuffer
-    );
+    const { imageUrl } = await s3.uploadImage({
+      path: submission_path,
+      buffer: resizedImageBuffer,
+      contentType: 'image/webp',
+    });
 
     return c.json({ message: 'Screenshot uploaded to S3', imageUrl });
   } catch (e: any) {
