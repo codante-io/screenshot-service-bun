@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
 import sharp from 'sharp';
 import { S3 } from '../lib/s3';
-import base62 from '@sindresorhus/base62';
+import { nanoid } from 'nanoid';
+import Base62Str from 'base62str';
 
 const app = new Hono();
 
@@ -19,10 +20,13 @@ app.post('/', async (c) => {
   }
 
   // encode in base62 from '@sindresorhus/base62'
-  const encodedEmail = base62.encodeString(email);
+  const base62 = Base62Str.createInstance();
+  const encodedEmail = base62.encodeStr(email);
 
-  const smImgPath = `user-avatars/${encodedEmail}.avif`;
-  const lgImgPath = `user-avatars/${encodedEmail}-lg.avif`;
+  const strRandom = nanoid(10);
+
+  const smImgPath = `user-avatars/${encodedEmail}/${strRandom}.avif`;
+  const lgImgPath = `user-avatars/${encodedEmail}/${strRandom}-lg.avif`;
 
   const res = await fetch(avatarUrl);
   const buffer = Buffer.from(await res.arrayBuffer());
