@@ -56,8 +56,7 @@ export function vimeoVideoValidator() {
     if (!parsed.success) {
       return c.json(
         {
-          message:
-            'Invalid Data. You need to pass `vimeoUrl`, `localPath`, `position` and `startTime`',
+          message: 'Invalid Data. You need to pass `vimeoID`',
         },
         400
       );
