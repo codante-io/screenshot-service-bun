@@ -10,7 +10,7 @@ async function updater() {
 
   // update expenses
   console.log('Scraping expenses...');
-  // await scrapeExpenses();
+  await scrapeExpenses();
 
   // update summaries
   console.log('Updating party summary...');
