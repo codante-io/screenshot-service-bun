@@ -2,7 +2,8 @@
   "name": "screenshot-service-hono",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "codante-apis:update-senator-expenses": "bun run src/features/codante-apis/senator-expenses/updater.ts",
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.623.0",
