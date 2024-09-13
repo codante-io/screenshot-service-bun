@@ -34,12 +34,12 @@ type Expense = {
   senatorName: string;
 };
 
-export async function scrapeExpenses() {
-  const year = 2024;
+export async function scrapeExpenses(year: number) {
   let baseUrl = `https://adm.senado.gov.br/adm-dadosabertos/api/v1/senadores/despesas_ceaps/${year}`;
 
-  for (let i = 2023; i <= 2023; i++) {
+  for (let i = year; i <= year; i++) {
     const url = baseUrl;
+
     const data = await fetch(url);
     const expenses: OriginalExpense[] = await data.json();
 
