@@ -87,7 +87,6 @@ export async function scrapeExpenses() {
       count++;
       console.log(count);
     }
-    await connection.end();
   }
 }
 
