@@ -10,7 +10,7 @@ async function updater() {
 
   // update expenses
   console.log('Scraping expenses...');
-  await scrapeExpenses(2024);
+  await scrapeExpenses(YEAR);
 
   // update summaries
   console.log('Updating party summary...');
@@ -18,5 +18,5 @@ async function updater() {
   console.log('Updating UF summary...');
   await updateUFSummary(YEAR);
 
-  connection.end();
+  await connection.end();
 }
