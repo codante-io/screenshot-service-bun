@@ -1,13 +1,20 @@
 import { drizzle } from 'drizzle-orm/mysql2';
-import * as schema from './schema';
 import mysql from 'mysql2/promise';
 
-const connection = await mysql.createConnection({
+declare global {
+  var _db: ReturnType<typeof drizzle> | undefined;
+}
+
+const poolConnection = mysql.createPool({
   user: process.env.DATABASE_USER_SENATOR_EXPENSES,
   password: process.env.DATABASE_PASSWORD_SENATOR_EXPENSES,
   database: process.env.DATABASE_SENATOR_EXPENSES,
 });
 
-const db = drizzle(connection, { schema, mode: 'default' });
+const db = globalThis._db || drizzle(poolConnection);
 
-export { db, connection };
+if (process.env.NODE_ENV !== 'production') {
+  globalThis._db = db;
+}
+
+export { db, poolConnection };

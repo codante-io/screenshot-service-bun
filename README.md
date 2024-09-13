@@ -1,11 +1,5 @@
-To install dependencies:
-```sh
-bun install
-```
+### Scheduler
 
-To run:
-```sh
-bun run dev
-```
+- Setup with PM2
 
-open http://localhost:3000
+

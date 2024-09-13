@@ -1,11 +1,8 @@
-import { connection } from './db/db';
 import { scrapeExpenses } from './expenses/scrapeExpenses';
 import { updatePartySummary } from './summaries/updatePartySummary';
 import { updateUFSummary } from './summaries/updateUFSummary';
 
-await updater();
-
-async function updater() {
+export async function updater() {
   const YEAR = 2024;
 
   // update expenses
@@ -17,6 +14,4 @@ async function updater() {
   await updatePartySummary(YEAR);
   console.log('Updating UF summary...');
   await updateUFSummary(YEAR);
-
-  await connection.end();
 }
