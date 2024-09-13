@@ -1,0 +1,1 @@
+ALTER TABLE `expenses` ADD CONSTRAINT `expenses_original_id_unique` UNIQUE(`original_id`);

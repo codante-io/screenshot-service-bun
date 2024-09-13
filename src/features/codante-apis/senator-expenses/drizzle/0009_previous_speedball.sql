@@ -1,0 +1,1 @@
+ALTER TABLE `expenses` ADD `uf` varchar(2);
