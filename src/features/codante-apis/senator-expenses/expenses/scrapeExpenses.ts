@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { connection, db } from '../db/db';
+import { db } from '../db/db';
 import {
   expenses as expensesTable,
   senators as senatorsTable,
