@@ -15,6 +15,13 @@ export async function updateUFSummary(year: number) {
     .groupBy(expenses.uf);
   // get unique parties from the expenses table
 
+  const sanitized = data.map((row) => {
+    return {
+      uf: row.uf,
+      total_expenses: parseFloat(Number(row.total)?.toFixed(2)),
+    };
+  });
+
   await db
     .delete(summaries)
     .where(and(eq(summaries.year, year.toString()), eq(summaries.type, 'uf')));
@@ -22,6 +29,6 @@ export async function updateUFSummary(year: number) {
   await db.insert(summaries).values({
     type: 'uf',
     year: year.toString(),
-    summary: data,
+    summary: sanitized,
   });
 }

@@ -37,8 +37,10 @@ export async function updatePartySummary(year: number) {
   const sanitized = expensesByParty.map((row) => {
     return {
       party: row.party,
-      total_expenses: row.total,
-      total_per_senator: row.total / groupedByParty[row.party].length,
+      total_expenses: parseFloat(Number(row.total)?.toFixed(2)),
+      total_per_senator: parseFloat(
+        (row.total / groupedByParty[row.party].length).toFixed(2)
+      ),
       senator_ids: groupedByParty[row.party],
     };
   });
