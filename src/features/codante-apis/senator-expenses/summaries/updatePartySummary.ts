@@ -10,20 +10,18 @@ export async function updatePartySummary(year: number) {
     .from(expenses)
     .where(like(expenses.date, `${year}%`))
     .groupBy(expenses.party, expenses.senator_id);
-  // get unique parties from the expenses table
 
-  const groupedByParty = result.reduce((acc, item) => {
+  const groupedByParty: Record<string, string[]> = {};
+
+  result.forEach((item) => {
     const { party, senator_id } = item;
-    if (!acc[party]) {
-      acc[party] = [];
+    if (party) {
+      if (!groupedByParty[party]) {
+        groupedByParty[party] = [];
+      }
+      groupedByParty[party].push(String(senator_id));
     }
-    acc[party].push(String(senator_id));
-    return acc;
-  }, {});
-
-  // console.log(groupedByParty);
-
-  // pegando a soma dos gastos por partido
+  });
 
   const expensesByParty = await db
     .select({
@@ -35,13 +33,18 @@ export async function updatePartySummary(year: number) {
     .groupBy(expenses.party);
 
   const sanitized = expensesByParty.map((row) => {
+    const party = row.party; // Type is string | null
+    const total = parseFloat(row.total || '0'); // handle null by defaulting to '0'
+
+    // Ensure party is a string before accessing groupedByParty
+    const senatorCount = party ? groupedByParty[party]?.length || 0 : 0; // Prevent division by zero
+
     return {
-      party: row.party,
-      total_expenses: parseFloat(Number(row.total)?.toFixed(2)),
-      total_per_senator: parseFloat(
-        (row.total / groupedByParty[row.party].length).toFixed(2)
-      ),
-      senator_ids: groupedByParty[row.party],
+      party: party,
+      total_expenses: parseFloat(total.toFixed(2)),
+      total_per_senator:
+        senatorCount > 0 ? parseFloat((total / senatorCount).toFixed(2)) : 0, // prevents division by zero
+      senator_ids: party ? groupedByParty[party] || [] : [], // Access only if party is not null
     };
   });
 

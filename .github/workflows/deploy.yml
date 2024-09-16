@@ -39,5 +39,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          script: |
+            script: |
             pm2 restart screenshot-service-bun
+            pm2 restart bun-screenshot-service-scheduler
