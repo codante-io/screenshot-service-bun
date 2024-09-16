@@ -9,7 +9,7 @@ export async function updater() {
 
   // update expenses
   console.log('Scraping expenses...');
-  // await scrapeExpenses(YEAR);
+  await scrapeExpenses(YEAR);
 
   // update summaries
   console.log('Updating party summary...');
