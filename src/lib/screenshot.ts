@@ -4,7 +4,7 @@ import sharp from 'sharp';
 export async function getBufferFromPageScreenshot(
   url: string,
   timeout = 30000,
-  animationWaitTime = 1000 // Added animation wait time parameter
+  animationWaitTime = 1500 // Added animation wait time parameter
 ) {
   try {
     const browser = await chromium.launch();
