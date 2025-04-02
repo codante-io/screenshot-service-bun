@@ -37,4 +37,5 @@ export const screenshotPutRequestSchema = z.object({
 
 export const vimeoVideoRequestSchema = z.object({
   vimeoID: z.string().min(1, 'vimeoID is required'),
+  startTime: z.string().min(1, 'startTime is required'),
 });
