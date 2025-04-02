@@ -2,7 +2,7 @@
 node_modules/
 .env
 
-# bun
+
 .DS_Store
 
 # bun-screenshot-service-scheduler

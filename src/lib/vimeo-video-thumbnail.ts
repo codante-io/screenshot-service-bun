@@ -23,7 +23,10 @@ if (!vimeoAccessToken) {
   throw new Error('VIMEO_SECRET environment variable is not set');
 }
 
-export async function handle(vimeoID: string): Promise<{ videoUrl: string }> {
+export async function handle(
+  vimeoID: string,
+  startTime: string
+): Promise<{ videoUrl: string }> {
   const videoAPIUrl: string = `https://api.vimeo.com/videos/${vimeoID}`;
 
   let response: AxiosResponse | null = null;
@@ -71,7 +74,8 @@ export async function handle(vimeoID: string): Promise<{ videoUrl: string }> {
       saveToAWS(
         'tmp/processed-video.mp4',
         `workshops/cover-videos/${videoHash}.mp4`
-      )
+      ),
+    startTime
   );
 
   // remove temp files
@@ -103,15 +107,24 @@ async function saveToAWS(
 export async function processVideo(
   inputPath: string,
   outputPath: string,
-  callback: () => Promise<string>
+  callback: () => Promise<string>,
+  startTime: string
 ): Promise<{ videoUrl: string }> {
   logger.info('Processing video...');
   logger.info(`Input Path: ${inputPath}`);
   logger.info(`Output Path: ${outputPath}`);
+  logger.info(`StartTime: ${startTime}`);
+
+  // time format is 00:00:00 (HH:MM:SS)
+  const startTimeInSeconds = startTime
+    .split(':')
+    .reduce((acc, time) => acc * 60 + parseInt(time), 0);
+
+  logger.info(`StartTime in seconds: ${startTimeInSeconds}`);
 
   return new Promise((resolve, reject) => {
     Ffmpeg(inputPath)
-      .setStartTime('00:00:00')
+      .setStartTime(startTimeInSeconds)
       .setDuration(5)
       .noAudio()
       .output(outputPath)
