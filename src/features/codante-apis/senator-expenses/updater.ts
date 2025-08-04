@@ -2,8 +2,6 @@ import { scrapeExpenses } from './expenses/scrapeExpenses';
 import { updatePartySummary } from './summaries/updatePartySummary';
 import { updateUFSummary } from './summaries/updateUFSummary';
 
-updater();
-
 export async function updater() {
   const YEAR = 2024;
 
